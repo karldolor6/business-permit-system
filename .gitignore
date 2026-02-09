@@ -1,0 +1,27 @@
+# Uploaded files
+uploads/*
+!uploads/.htaccess
+
+# Test files
+test-db.php
+
+# System files
+.DS_Store
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Logs
+*.log
+
+# Backup files
+*.bak
+*~
+
+# Temporary files
+tmp/
+temp/
