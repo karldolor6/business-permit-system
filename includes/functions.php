@@ -104,7 +104,7 @@ function uploadFile($file, $application_id) {
     
     // Create directory if not exists
     if (!file_exists($target_dir)) {
-        mkdir($target_dir, 0777, true);
+        mkdir($target_dir, 0755, true);
     }
     
     $file_name = basename($file["name"]);

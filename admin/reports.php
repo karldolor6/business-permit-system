@@ -35,18 +35,24 @@ $stmt->execute();
 $rejected = $stmt->get_result()->fetch_assoc()['rejected'];
 
 // Get applications by business type
-$business_types = $conn->query("SELECT business_type, COUNT(*) as count 
-                                FROM applications 
-                                WHERE date_applied BETWEEN '$start_date' AND '$end_date'
-                                GROUP BY business_type 
-                                ORDER BY count DESC");
+$stmt = $conn->prepare("SELECT business_type, COUNT(*) as count 
+                        FROM applications 
+                        WHERE date_applied BETWEEN ? AND ?
+                        GROUP BY business_type 
+                        ORDER BY count DESC");
+$stmt->bind_param("ss", $start_date, $end_date);
+$stmt->execute();
+$business_types = $stmt->get_result();
 
 // Get recent applications for the period
-$applications = $conn->query("SELECT a.*, u.full_name as applicant_name 
-                              FROM applications a 
-                              LEFT JOIN users u ON a.user_id = u.id 
-                              WHERE a.date_applied BETWEEN '$start_date' AND '$end_date'
-                              ORDER BY a.date_applied DESC");
+$stmt = $conn->prepare("SELECT a.*, u.full_name as applicant_name 
+                        FROM applications a 
+                        LEFT JOIN users u ON a.user_id = u.id 
+                        WHERE a.date_applied BETWEEN ? AND ?
+                        ORDER BY a.date_applied DESC");
+$stmt->bind_param("ss", $start_date, $end_date);
+$stmt->execute();
+$applications = $stmt->get_result();
 
 $page_title = 'Reports';
 $admin_page = true;
